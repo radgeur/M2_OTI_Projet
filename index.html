@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>BadAssEditor</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/app.css" />
+
+    </head>
+    <body>
+        <div id="git">
+            <input type="text" id="git_init" placeholder="Nom du repository">
+            <button id="init"> Git init </button>
+            <span id="error_init" class="error"></span>
+            <span id="right_init" class="right">  </span>
+            <br />
+            <input type="text" id="git_commit" placeholder="Nom du commit">
+            <button id="commit" disabled="disabled"> Commit </button>
+            <span id="error_commit" class="error"></span>
+            <span id="right_commit" class="right"></span>
+            <br />
+            Fichier partagé avec : <select id="usersShare" size ="1"></select>
+            <br />
+            <input type="text" id="user" list="usersList" placeholder="ex: user4">
+            <datalist id="usersList"></datalist>
+            <button id="addUsertoShare"> Ajout </button>
+            <button id="delUsertoShare"> Supprimer </button>
+            <span id="error_add_del" class="error"></span>
+            <span id="right_add_del" class="right"></span>
+            <br />
+            <button id="droits" onclick ="document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'"> Gérer les droits </button>
+            <br />
+            <div id="light" class="white_content"></div>
+            <div id="fade" class="black_overlay">
+        </div>
+    </body>
+    <script src="git.js"></script>
+</html>
