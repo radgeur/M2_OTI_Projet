@@ -11,13 +11,11 @@
         <div id="git">
             <input type="text" id="git_init" placeholder="Nom du repository">
             <button id="init"> Git init </button>
-            <span id="error_init" class="error"></span>
-            <span id="right_init" class="right">  </span>
+            <span id="initMessage" class="error"></span>
             <br />
             <input type="text" id="git_commit" placeholder="Nom du commit">
             <button id="commit" disabled="disabled"> Commit </button>
-            <span id="error_commit" class="error"></span>
-            <span id="right_commit" class="right"></span>
+            <span id="commitMessage" class="error"></span>
             <br />
             Liste des utilisateurs : <select id="users" size ="1"></select>
             <br />
@@ -27,11 +25,11 @@
             <datalist id="usersList"></datalist>
             <button id="addUsertoShare"> Ajout </button>
             <button id="delUsertoShare"> Supprimer </button>
-            <span id="error_add_del" class="error"></span>
-            <span id="right_add_del" class="right"></span>
+            <span id="addUserMessage" class="error"></span>
         </div>
     </body>
     <script src="git.js"></script>
+    <script src="git_exc.js"></script>
     <script>
         var gitObject = new git();
 

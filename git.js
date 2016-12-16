@@ -4,14 +4,9 @@ class git{
         this.initText = document.getElementById("git_init");
         this.commitButton = document.getElementById("commit");
         this.commitText = document.getElementById("git_commit");
-        this.shareButton = document.getElementById("share");
-        this.droitButton = document.getElementById("droits");
-        this.error_init = document.getElementById("error_init");
-        this.error_commit = document.getElementById("error_commit");
-        this.right_init = document.getElementById("right_init");
-        this.right_commit = document.getElementById("right_commit");
-        this.error_add_del = document.getElementById("error_add_del");
-        this.right_add_del = document.getElementById("right_add_del");
+        this.initMessage = document.getElementById("initMessage");
+        this.commitMessage = document.getElementById("commitMessage");
+        this.addUserMessage = document.getElementById("addUserMessage");
         this.users = document.getElementById("users");
         this.user = document.getElementById("user");
         this.addUsertoShare = document.getElementById("addUsertoShare");
@@ -33,32 +28,47 @@ class git{
 
     //action when click on the button git init
     submitGitInit(){
-        if(this.initText.value == ""){
-            this.error_init.innerHTML = "<br />Le nom du repository ne peut-être vide";
-            return;
+        try {
+            this.initMessage.innerHTML = this.canInit();
         }
-        var right = document.getElementById("true_init");
-        this.error_init.innerHTML = "";
-        this.right_init.innerHTML = "<br />Le dépôt a bien été créé.";
-        this.initText.style.visibility = "hidden";
-        this.commitText.style.visibility = "visible";
-        this.initButton.disabled = "disabled";
-        this.commitButton.disabled = "";
+        catch (e) {
+            this.initMessage.innerHTML = e.toString();
+        }
+    }
+
+    //to check if he can init the repository
+    canInit(){
+        if(this.initText.value == "")
+            throw new RepositoryNameEmpty();
+        else {
+            this.initText.style.visibility = "hidden";
+            this.commitText.style.visibility = "visible";
+            this.initButton.disabled = "disabled";
+            this.commitButton.disabled = "";
+            return "<br /><font color='green'>Le dépôt a bien été créé.</font>";
+        }
     }
 
 
     //action when click on the button git commit
     submitGitCommit(){
-        this.right_init.innerHTML = "";
-        if(this.commitText.value == ""){
-            this.error_commit.innerHTML = "<br />Le message du commit ne peut-être vide";
-            this.right_commit.innerHTML = "";
-            return;
+        try {
+            this.commitMessage.innerHTML = this.canCommit();
         }
-        this.error_commit.innerHTML = "";
-        this.right_commit.innerHTML = "<br />Le commit a bien été effectué.";
-        this.initText.style.visibility = "hidden";
-        this.commitText.style.visibility = "visible";
+        catch (e) {
+            this.commitMessage.innerHTML = e.toString();
+        }
+    }
+
+    //to check if he can do a commit
+    canCommit(){
+        if(this.commitText.value == "")
+            throw new CommitNameEmpty();
+        else {
+            this.initText.style.visibility = "hidden";
+            this.commitText.style.visibility = "visible";
+            return "<br />Le commit a bien été effectué.";
+        }
     }
 
 
@@ -78,37 +88,49 @@ class git{
 
     //add a User to the usersShare
     addUser() {
-    	if(this.allUsers.indexOf(this.user.value) != -1){
+        try{
+            this.addUserMessage.innerHTML = this.canAddUser();
+        }
+        catch (e) {
+            this.addUserMessage.innerHTML = e.toString();
+        }
+    }
+
+    //to check if we can add the user of the repository
+    canAddUser() {
+        if(this.allUsers.indexOf(this.user.value) != -1){
     		if(this.usersAdd.indexOf(this.user.value) == -1){
     			this.usersAdd.push(this.user.value);
     			this.putIntoSelect(this.usersAdd, this.usersShare);
-    			this.right_add_del.innerHTML ="<br />" + this.user.value+" a bien été ajouté.";
-                this.error_add_del.innerHTML = "";
-    		}else{
-                this.right_add_del.innerHTML = "";
-    			this.error_add_del.innerHTML = "<br />" + this.user.value+" a déjà accès à ce fichier."
+    			return "<br /><font color='green'>" + this.user.value +" a bien été ajouté.</font>";
     		}
-    	}else{
-            this.right_add_del.innerHTML = "";
-    		this.error_add_del.innerHTML = "<br />" + this.user.value+" n'existe pas!";
-    	}
+            else
+    			throw new UserAlreadyAccess(this.user.value);
+    	}else
+    		throw new UserDoesntExist(this.user.value);
     }
 
     //del a User to the usersShare
     delUser(){
+        try{
+            this.addUserMessage.innerHTML = this.canDelUser();
+        }
+        catch (e) {
+            this.addUserMessage.innerHTML = e.toString();
+        }
+    }
+
+    //to check if we can del the user of the repository
+    canDelUser() {
         if(this.allUsers.indexOf(this.user.value) != -1){
-            if(this.usersAdd.indexOf(this.user.value) == -1){
-                this.right_add_del.innerHTML = "";
-                this.error_add_del.innerHTML = "<br />" + this.user.value+" n'a pas accès à ce fichier.";
-            } else {
+            if(this.usersAdd.indexOf(this.user.value) == -1)
+                throw new UserHaventAccess(this.user.value);
+            else {
                 this.usersAdd.splice(this.usersAdd.indexOf(this.user.value),1);
                 this.putIntoSelect(this.usersAdd, this.usersShare);
-                this.right_add_del.innerHTML = "<br />" + this.user.value+" a bien été supprimé.";
-                this.error_add_del.innerHTML = "";
+                return "<br /><font color='green'>" + this.user.value+" a bien été supprimé.</font>";
             }
-        }else {
-            this.right_add_del.innerHTML = "";
-            this.error_add_del.innerHTML = "<br />" + this.user.value + " n'existe pas";
-        }
+        }else
+            throw new UserDoesntExist(this.user.value);
     }
 }
