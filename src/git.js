@@ -38,7 +38,7 @@ class git{
 
     //to check if he can init the repository
     canInit(){
-        if(this.initText.value == "")
+        if(this.initText.value === "")
             throw new RepositoryNameEmpty();
         else {
             this.initText.style.visibility = "hidden";
@@ -62,12 +62,12 @@ class git{
 
     //to check if he can do a commit
     canCommit(){
-        if(this.commitText.value == "")
+        if(this.commitText.value === "")
             throw new CommitNameEmpty();
         else {
             this.initText.style.visibility = "hidden";
             this.commitText.style.visibility = "visible";
-            return "<br />Le commit a bien été effectué.";
+            return "<br /><font color='green'>Le commit a bien été effectué.</font>";
         }
     }
 
@@ -98,8 +98,8 @@ class git{
 
     //to check if we can add the user of the repository
     canAddUser() {
-        if(this.allUsers.indexOf(this.user.value) != -1){
-    		if(this.usersAdd.indexOf(this.user.value) == -1){
+        if(this.allUsers.indexOf(this.user.value) !== -1){
+    		if(this.usersAdd.indexOf(this.user.value) === -1){
     			this.usersAdd.push(this.user.value);
     			this.putIntoSelect(this.usersAdd, this.usersShare);
     			return "<br /><font color='green'>" + this.user.value +" a bien été ajouté.</font>";
@@ -122,8 +122,8 @@ class git{
 
     //to check if we can del the user of the repository
     canDelUser() {
-        if(this.allUsers.indexOf(this.user.value) != -1){
-            if(this.usersAdd.indexOf(this.user.value) == -1)
+        if(this.allUsers.indexOf(this.user.value) !== -1){
+            if(this.usersAdd.indexOf(this.user.value) === -1)
                 throw new UserHaventAccess(this.user.value);
             else {
                 this.usersAdd.splice(this.usersAdd.indexOf(this.user.value),1);
