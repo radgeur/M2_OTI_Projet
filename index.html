@@ -19,6 +19,8 @@
             <span id="error_commit" class="error"></span>
             <span id="right_commit" class="right"></span>
             <br />
+            Liste des utilisateurs : <select id="users" size ="1"></select>
+            <br />
             Fichier partagé avec : <select id="usersShare" size ="1"></select>
             <br />
             <input type="text" id="user" list="usersList" placeholder="ex: user4">
@@ -27,11 +29,6 @@
             <button id="delUsertoShare"> Supprimer </button>
             <span id="error_add_del" class="error"></span>
             <span id="right_add_del" class="right"></span>
-            <br />
-            <button id="droits" onclick ="document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'"> Gérer les droits </button>
-            <br />
-            <div id="light" class="white_content"></div>
-            <div id="fade" class="black_overlay">
         </div>
     </body>
     <script src="git.js"></script>

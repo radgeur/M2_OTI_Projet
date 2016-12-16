@@ -11,6 +11,7 @@ var right_init = document.getElementById("right_init");
 var right_commit = document.getElementById("right_commit");
 var error_add_del = document.getElementById("error_add_del");
 var right_add_del = document.getElementById("right_add_del");
+var users = document.getElementById("users");
 var usersShare = document.getElementById("usersShare");
 var usersList = document.getElementById("usersList");
 var user = document.getElementById("user");
@@ -19,7 +20,7 @@ var delUsertoShare = document.getElementById("delUsertoShare");
 var frame = document.getElementById("frameRights");
 var language = document.getElementById("language");
 var lightbox = document.getElementById("light");
-var users = ["user1", "user2", "user3", "groupe1"];
+var usersAdd = [];
 var allUsers = ["user1", "user2", "user3", "user4", "user5", "user6", "user7", "groupe1", "groupe2", "groupe3"];
 
 //hide the textbox for commit
@@ -62,9 +63,10 @@ commitButton.addEventListener("click", submitGitCommit, false);
 function putIntoSelect(list, id) {
     id.innerHTML = "";
     for(var i = 0;i<list.length;i++)
-        id.innerHTML += "<option>" + list[i];
+        id.innerHTML += "<option value=" + list[i] + ">" + list[i] + "</option>";
 }
-putIntoSelect(users, usersShare);
+putIntoSelect(usersAdd, usersShare);
+putIntoSelect(allUsers, users);
 
 //put all the users into the dataList
 function addUsersToDataList(datalist){
@@ -77,9 +79,9 @@ addUsersToDataList(usersList);
 //add a User to the usersShare
 function addUser() {
 	if(allUsers.indexOf(user.value) != -1){
-		if(users.indexOf(user.value) == -1){
-			users.push(user.value);
-			usersIntoSelect(usersShare);
+		if(usersAdd.indexOf(user.value) == -1){
+			usersAdd.push(user.value);
+			putIntoSelect(usersAdd, usersShare);
 			right_add_del.innerHTML ="<br />" + user.value+" a bien été ajouté.";
             error_add_del.innerHTML = "";
 		}else{
@@ -96,12 +98,12 @@ addUsertoShare.addEventListener("click", addUser, false);
 //del a User to the usersShare
 function delUser(){
     if(allUsers.indexOf(user.value) != -1){
-        if(users.indexOf(user.value) == -1){
+        if(usersAdd.indexOf(user.value) == -1){
             right_add_del.innerHTML = "";
             error_add_del.innerHTML = "<br />" + user.value+" n'a pas accès à ce fichier.";
         } else {
-            users.splice(users.indexOf(user.value),1);
-            usersIntoSelect(usersShare);
+            usersAdd.splice(usersAdd.indexOf(user.value),1);
+            putIntoSelect(usersAdd, usersShare);
             right_add_del.innerHTML = "<br />" + user.value+" a bien été supprimé.";
             error_add_del.innerHTML = "";
         }
@@ -111,19 +113,3 @@ function delUser(){
     }
 }
 delUsertoShare.addEventListener("click", delUser, false);
-
-
-//display the rights in lightbox
-function displayRights(){
-    var sContent = "<table border=1>"
-    sContent += "<caption> Gestion des droits</caption>";
-    sContent += "<tr> <th> Lecture </th> <th> Ecriture </th> <th> Utilisateur </th> </tr>";
-    for(var i = 0;i<users.length;i++){
-        sContent += "<tr> <td> <input type=\"checkbox\"> </td>";
-        sContent += "<td> <input type=\"checkbox\"> </td>";
-        sContent += "<td>" + users[i] + " </td></tr>";
-    }
-    sContent += "</table>";
-    sContent += "<Button id=\"submitRights\" onclick =\"document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'\"> Valider les modifications</button>";
-    lightbox.innerHTML = sContent;
-}
