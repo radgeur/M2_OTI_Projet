@@ -1,115 +1,114 @@
-//All the variables
-var initButton = document.getElementById("init");
-var initText = document.getElementById("git_init");
-var commitButton = document.getElementById("commit");
-var commitText = document.getElementById("git_commit");
-var shareButton = document.getElementById("share");
-var droitButton = document.getElementById("droits");
-var error_init = document.getElementById("error_init");
-var error_commit = document.getElementById("error_commit");
-var right_init = document.getElementById("right_init");
-var right_commit = document.getElementById("right_commit");
-var error_add_del = document.getElementById("error_add_del");
-var right_add_del = document.getElementById("right_add_del");
-var users = document.getElementById("users");
-var usersShare = document.getElementById("usersShare");
-var usersList = document.getElementById("usersList");
-var user = document.getElementById("user");
-var addUsertoShare = document.getElementById("addUsertoShare");
-var delUsertoShare = document.getElementById("delUsertoShare");
-var frame = document.getElementById("frameRights");
-var language = document.getElementById("language");
-var lightbox = document.getElementById("light");
-var usersAdd = [];
-var allUsers = ["user1", "user2", "user3", "user4", "user5", "user6", "user7", "groupe1", "groupe2", "groupe3"];
-
-//hide the textbox for commit
-commitText.style.visibility = "hidden";
-initButton.disabled = "";
-commitButton.disabled = "disabled";
-
-//action when click on the button git init
-function submitGitInit(){
-    var right = document.getElementById("true_init");
-    if(initText.value == ""){
-        error_init.innerHTML = "<br />Le nom du repository ne peut-être vide";
-        return;
+class git{
+    constructor() {
+        this.initButton = document.getElementById("init");
+        this.initText = document.getElementById("git_init");
+        this.commitButton = document.getElementById("commit");
+        this.commitText = document.getElementById("git_commit");
+        this.shareButton = document.getElementById("share");
+        this.droitButton = document.getElementById("droits");
+        this.error_init = document.getElementById("error_init");
+        this.error_commit = document.getElementById("error_commit");
+        this.right_init = document.getElementById("right_init");
+        this.right_commit = document.getElementById("right_commit");
+        this.error_add_del = document.getElementById("error_add_del");
+        this.right_add_del = document.getElementById("right_add_del");
+        this.users = document.getElementById("users");
+        this.user = document.getElementById("user");
+        this.addUsertoShare = document.getElementById("addUsertoShare");
+        this.delUsertoShare = document.getElementById("delUsertoShare");
+        this.commitText.style.visibility = "hidden";
+        this.initButton.disabled = "";
+        this.commitButton.disabled = "disabled";
+        this.usersShare = document.getElementById("usersShare");
+        this.usersList = document.getElementById("usersList");
+        this.usersAdd = [];
+        this.allUsers = ["user1", "user2", "user3", "user4", "user5", "user6", "user7", "groupe1", "groupe2", "groupe3"];
     }
-    error_init.innerHTML = "";
-    right_init.innerHTML = "<br />Le dépôt a bien été créé.";
-    initText.style.visibility = "hidden";
-    commitText.style.visibility = "visible";
-    initButton.disabled = "disabled";
-    commitButton.disabled = "";
-}
-initButton.addEventListener("click", submitGitInit, false);
 
-//action when click on the button git commit
-function submitGitCommit(){
-    right_init.innerHTML = "";
-    if(commitText.value == ""){
-        error_commit.innerHTML = "<br />Le message du commit ne peut-être vide";
-        right_commit.innerHTML = "";
-        return;
+    initLists(){
+        this.putIntoSelect(this.usersAdd, this.usersShare);
+        this.putIntoSelect(this.allUsers, this.users);
+        this.addUsersToDataList(this.usersList);
     }
-    error_commit.innerHTML = "";
-    right_commit.innerHTML = "<br />Le commit a bien été effectué.";
-    initText.style.visibility = "hidden";
-    commitText.style.visibility = "visible";
-}
-commitButton.addEventListener("click", submitGitCommit, false);
 
-//put a list into a select
-function putIntoSelect(list, id) {
-    id.innerHTML = "";
-    for(var i = 0;i<list.length;i++)
-        id.innerHTML += "<option value=" + list[i] + ">" + list[i] + "</option>";
-}
-putIntoSelect(usersAdd, usersShare);
-putIntoSelect(allUsers, users);
-
-//put all the users into the dataList
-function addUsersToDataList(datalist){
-    datalist.innerHTML = "";
-    for(var i = 0;i<allUsers.length;i++)
-        datalist.innerHTML += "<option value=\"" + allUsers[i] + "\"/>";
-}
-addUsersToDataList(usersList);
-
-//add a User to the usersShare
-function addUser() {
-	if(allUsers.indexOf(user.value) != -1){
-		if(usersAdd.indexOf(user.value) == -1){
-			usersAdd.push(user.value);
-			putIntoSelect(usersAdd, usersShare);
-			right_add_del.innerHTML ="<br />" + user.value+" a bien été ajouté.";
-            error_add_del.innerHTML = "";
-		}else{
-            right_add_del.innerHTML = "";
-			error_add_del.innerHTML = "<br />" + user.value+" a déjà accès à ce fichier."
-		}
-	}else{
-        right_add_del.innerHTML = "";
-		error_add_del.innerHTML = "<br />" + user.value+" n'existe pas!";
-	}
-}
-addUsertoShare.addEventListener("click", addUser, false);
-
-//del a User to the usersShare
-function delUser(){
-    if(allUsers.indexOf(user.value) != -1){
-        if(usersAdd.indexOf(user.value) == -1){
-            right_add_del.innerHTML = "";
-            error_add_del.innerHTML = "<br />" + user.value+" n'a pas accès à ce fichier.";
-        } else {
-            usersAdd.splice(usersAdd.indexOf(user.value),1);
-            putIntoSelect(usersAdd, usersShare);
-            right_add_del.innerHTML = "<br />" + user.value+" a bien été supprimé.";
-            error_add_del.innerHTML = "";
+    //action when click on the button git init
+    submitGitInit(){
+        if(this.initText.value == ""){
+            this.error_init.innerHTML = "<br />Le nom du repository ne peut-être vide";
+            return;
         }
-    }else {
-        right_add_del.innerHTML = "";
-        error_add_del.innerHTML = "<br />" + user.value + " n'existe pas";
+        var right = document.getElementById("true_init");
+        this.error_init.innerHTML = "";
+        this.right_init.innerHTML = "<br />Le dépôt a bien été créé.";
+        this.initText.style.visibility = "hidden";
+        this.commitText.style.visibility = "visible";
+        this.initButton.disabled = "disabled";
+        this.commitButton.disabled = "";
+    }
+
+
+    //action when click on the button git commit
+    submitGitCommit(){
+        this.right_init.innerHTML = "";
+        if(this.commitText.value == ""){
+            this.error_commit.innerHTML = "<br />Le message du commit ne peut-être vide";
+            this.right_commit.innerHTML = "";
+            return;
+        }
+        this.error_commit.innerHTML = "";
+        this.right_commit.innerHTML = "<br />Le commit a bien été effectué.";
+        this.initText.style.visibility = "hidden";
+        this.commitText.style.visibility = "visible";
+    }
+
+
+    //put a list into a select
+    putIntoSelect(list, id) {
+        id.innerHTML = "";
+        for(var i = 0;i<list.length;i++)
+            id.innerHTML += "<option value=" + list[i] + ">" + list[i] + "</option>";
+    }
+
+    //put all the users into the dataList
+    addUsersToDataList(datalist){
+        datalist.innerHTML = "";
+        for(var i = 0;i<this.allUsers.length;i++)
+            datalist.innerHTML += "<option value=\"" + this.allUsers[i] + "\"/>";
+    }
+
+    //add a User to the usersShare
+    addUser() {
+    	if(this.allUsers.indexOf(this.user.value) != -1){
+    		if(this.usersAdd.indexOf(this.user.value) == -1){
+    			this.usersAdd.push(this.user.value);
+    			this.putIntoSelect(this.usersAdd, this.usersShare);
+    			this.right_add_del.innerHTML ="<br />" + this.user.value+" a bien été ajouté.";
+                this.error_add_del.innerHTML = "";
+    		}else{
+                this.right_add_del.innerHTML = "";
+    			this.error_add_del.innerHTML = "<br />" + this.user.value+" a déjà accès à ce fichier."
+    		}
+    	}else{
+            this.right_add_del.innerHTML = "";
+    		this.error_add_del.innerHTML = "<br />" + this.user.value+" n'existe pas!";
+    	}
+    }
+
+    //del a User to the usersShare
+    delUser(){
+        if(this.allUsers.indexOf(this.user.value) != -1){
+            if(this.usersAdd.indexOf(this.user.value) == -1){
+                this.right_add_del.innerHTML = "";
+                this.error_add_del.innerHTML = "<br />" + this.user.value+" n'a pas accès à ce fichier.";
+            } else {
+                this.usersAdd.splice(this.usersAdd.indexOf(this.user.value),1);
+                this.putIntoSelect(this.usersAdd, this.usersShare);
+                this.right_add_del.innerHTML = "<br />" + this.user.value+" a bien été supprimé.";
+                this.error_add_del.innerHTML = "";
+            }
+        }else {
+            this.right_add_del.innerHTML = "";
+            this.error_add_del.innerHTML = "<br />" + this.user.value + " n'existe pas";
+        }
     }
 }
-delUsertoShare.addEventListener("click", delUser, false);

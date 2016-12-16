@@ -32,4 +32,14 @@
         </div>
     </body>
     <script src="git.js"></script>
+    <script>
+        var gitObject = new git();
+
+        gitObject.initLists();
+        document.getElementById("init").addEventListener("click", gitObject.submitGitInit.bind(gitObject), false);
+        document.getElementById("commit").addEventListener("click", gitObject.submitGitCommit.bind(gitObject), false);
+
+        document.getElementById("delUsertoShare").addEventListener("click", gitObject.delUser.bind(gitObject), false);
+        document.getElementById("addUsertoShare").addEventListener("click", gitObject.addUser.bind(gitObject), false);
+    </script>
 </html>
